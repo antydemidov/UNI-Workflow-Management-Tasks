@@ -1,0 +1,3 @@
+pyzeebe == 4.1.0
+pydantic == 2.10.6
+supabase == 2.12.0
