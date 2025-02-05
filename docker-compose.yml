@@ -1,0 +1,21 @@
+
+version: '3.8'
+
+services:
+  camunda-worker:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      - ZEEBE_ADDRESS=localhost:26500
+      - SUPABASE_URL=your_supabase_url
+      - SUPABASE_KEY=your_supabase_key
+    restart: unless-stopped
+    networks:
+      - camunda-network
+
+networks:
+  camunda-network:
+    driver: bridge
