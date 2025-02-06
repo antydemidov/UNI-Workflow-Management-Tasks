@@ -7,11 +7,11 @@ services:
       context: .
       dockerfile: Dockerfile
     ports:
-      - "8080:8080"
+      - "8082:8082"
     environment:
-      - ZEEBE_ADDRESS=localhost:26500
-      - SUPABASE_URL=your_supabase_url
-      - SUPABASE_KEY=your_supabase_key
+      - ZEEBE_ADDRESS=141.26.157.251:8081
+      - SUPABASE_URL=${SUPABASE_URL}
+      - SUPABASE_KEY=${SUPABASE_KEY}
     restart: unless-stopped
     networks:
       - camunda-network
