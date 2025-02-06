@@ -12,8 +12,7 @@ def get_client_bvis():
 
 @router.task(task_type='send_feedback')
 async def send_feedback(job: Job):
-    pid = job.variables['application']['pid']
-    application_id = str(job.variables['application_id'])
+    pid = job.variables['bvis_message']['pid']
     no_issues_with_terms = job.variables['message_settings']
     issues_with_terms = not no_issues_with_terms
 
@@ -22,11 +21,12 @@ async def send_feedback(job: Job):
         name='receive_capitol_feedback',
         correlation_key=str(pid),
         variables={
-            'application_id_capitol': application_id,
+            'application_id_capitol': pid,
             'issues_with_terms': issues_with_terms,
             'no_issues_with_terms': no_issues_with_terms
-        },
+        }
     )
+
 
 @router.task(task_type='send_eligibility_assessment')
 async def send_eligibility_assessment(job: Job):
@@ -61,6 +61,7 @@ async def receive_plan_confirmation(job: Job):
         }
     )
 
+
 @router.task(task_type='receive_insurance_confirmation')
 async def receive_insurance_confirmation(job: Job):
     insurance_confirmed = job.variables['message_settings']
@@ -74,12 +75,14 @@ async def receive_insurance_confirmation(job: Job):
         }
     )
 
+
 @router.task(task_type='receive_capitol_response')
 async def receive_capitol_response(job: Job):
     fraud_and_liability_assessment = job.variables['fraud_and_liability_assessment']
     insurance_cover_exists = fraud_and_liability_assessment['result']['valid']
     insurance_cover_does_not_exist = not insurance_cover_exists
-    capitol_pays_amount = fraud_and_liability_assessment['result']['payout']
+    capitol_pays_amount = bool(
+        fraud_and_liability_assessment['result']['payout'])
     capitol_does_not_pay_amount = not capitol_pays_amount
     pid = job.variables['application']['pid']
     client = get_client_bvis()
@@ -90,9 +93,11 @@ async def receive_capitol_response(job: Job):
             'insurance_cover_does_not_exist': insurance_cover_does_not_exist,
             'insurance_cover_exists': insurance_cover_exists,
             'capitol_does_not_pay_amount': capitol_does_not_pay_amount,
-            'capitol_pays_amount': capitol_pays_amount
+            'capitol_pays_amount': capitol_pays_amount,
+            'payout': fraud_and_liability_assessment['result']['payout']
         }
     )
+
 
 @router.task(task_type='receive_message_insurance_case_solved')
 async def receive_message_insurance_case_solved(job: Job):

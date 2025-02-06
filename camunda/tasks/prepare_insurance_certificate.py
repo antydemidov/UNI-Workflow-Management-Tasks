@@ -43,19 +43,19 @@ def calculate_insurance_details(application: ApplicationValidator):
     def calculate_base_coverage(vehicle_value, insurance_type: str, request_type: str):
 
         base_coverage = {
-            'Third Party Liability': {
+            'liability_insurance': {
                 # Minimum €500k or 50% of vehicle value
                 'individual': max(500000, vehicle_value * 0.5),
                 # Minimum €300k or 40% of vehicle value
                 'fleet': max(300000, vehicle_value * 0.4)
             },
-            'Partial Coverage': {
+            'partial_coverage': {
                 # Minimum €20k or 40% of vehicle value
                 'individual': max(20000, vehicle_value * 0.4),
                 # Minimum €15k or 30% of vehicle value
                 'fleet': max(15000, vehicle_value * 0.3)
             },
-            'Comprehensive': {
+            'comprehensive_coverage': {
                 # Minimum €40k or 60% of vehicle value
                 'individual': max(40000, vehicle_value * 0.6),
                 # Minimum €30k or 50% of vehicle value
@@ -78,9 +78,9 @@ def calculate_insurance_details(application: ApplicationValidator):
 
         # Base deductible values
         base_deductible = {
-            'Third Party Liability': 0,
-            'Partial Coverage': 500,
-            'Comprehensive': 1000
+            'liability_insurance': 0,
+            'partial_coverage': 500,
+            'comprehensive_coverage': 1000
         }
 
         risk_factor = max(0.5, 1 - total_risk)

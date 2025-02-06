@@ -17,15 +17,12 @@ async def application_validation(job: Job):
     instance_id = job.process_instance_key
     print(f'Task \'{TASK_TYPE}\' is started for instance {instance_id}')
 
-    data = job.variables
-    application_data: dict | None = data.get('bvis_message')
+    application_data: dict | None = job.variables.get('bvis_message')
 
     if not application_data:
-        print("Error: 'initial_message' key is missing in job variables.")
         return {'is_application_validated': False}
 
     try:
-        # application = ApplicationValidator.model_validate(application_data)
         application = ApplicationValidator(**application_data)
     except ValidationError as e:
         print(f'Validation error: {e}')

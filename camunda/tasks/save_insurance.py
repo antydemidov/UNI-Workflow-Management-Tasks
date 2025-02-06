@@ -25,7 +25,7 @@ async def save_insurance(job: Job):
     insurance = InsuranceValidator(
         application_id=application.application_id,
         insurance_type=application.insurance_type,
-        policy_number=insurance_certificate['insurance_details']['insurance_agreement_number'],
+        policy_number=insurance_certificate['insurance_details']['policy_number'],
         date_start=application.rental_start_date,
         date_end=application.rental_end_date,
         amount=data['insurance_cost'],

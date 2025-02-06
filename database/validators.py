@@ -8,7 +8,7 @@ from pydantic import BaseModel, ConfigDict
 class InvoiceValidator(BaseModel):
     model_config = ConfigDict(extra='ignore')
 
-    invoice_id: int
+    invoice_id: int | None = None
     application_id: int
     date_start: str
     date_end: str
@@ -21,7 +21,7 @@ class InvoiceValidator(BaseModel):
 class InsuranceValidator(BaseModel):
     model_config = ConfigDict(extra='ignore')
 
-    insurance_id: int
+    insurance_id: int | None = None
     application_id: int
     insurance_type: str
     policy_number: str
@@ -49,7 +49,7 @@ class EligibilityValidator(BaseModel):
 
 class VehicleValidator(BaseModel):
 
-    vehicle_id: int
+    vehicle_id: int | None = None
     vehicle_manufacturer: str
     vehicle_model: str
     vehicle_type: str
@@ -75,8 +75,8 @@ class ApplicationValidator(BaseModel):
     age: int
     driver_license_valid: bool
     street_number: int = 0
-    phone_number: int
-    email_address: str
+    phone_number: int | None = None
+    email_address: str | None = None
     child_seat: bool = False
     additional_services: str = 'No'
     extra_insurance: bool = False
